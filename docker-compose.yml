@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: briberybuster-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: briberybuster
+      POSTGRES_PASSWORD: changeme_production
+      POSTGRES_DB: briberybuster
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - briberybuster-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: briberybuster-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - briberybuster-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  briberybuster-network:
+    driver: bridge
