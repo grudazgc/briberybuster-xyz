@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id            String   @id @default(cuid())
+  description   String   @db.Text
+  latitude      Float
+  longitude     Float
+  category      Category
+  walletAddress String
+  hash          String   @unique
+  status        Status   @default(PENDING)
+  evidenceUrls  String[] @default([])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([walletAddress])
+  @@index([createdAt])
+}
+
+enum Category {
+  BRIBERY
+  EMBEZZLEMENT
+  FRAUD
+  NEPOTISM
+  ABUSE_OF_POWER
+  OTHER
+}
+
+enum Status {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  email     String   @unique
+  role      Role     @default(MODERATOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+}
