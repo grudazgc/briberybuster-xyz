@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #218085;
+  --primary-light: #32b8c6;
+  --primary-dark: #1d7480;
+  --background: #fcfcf9;
+  --surface: #fffffd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1f2121;
+    --surface: #262828;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: var(--background);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 0.5rem;
+}
